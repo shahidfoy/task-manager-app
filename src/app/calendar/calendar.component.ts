@@ -1,5 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 
+export enum ModalType {
+  SET_AVAILABILITY_YEAR = 'SET_AVAILABILITY_YEAR',
+  SET_AVAILABILITY_MONTH = 'SET_AVAILABILITY_MONTH',
+  SET_AVAILABILITY_WEEK = 'SET_AVAILABILITY_WEEK',
+  SET_AVAILABILITY_DAY = 'SET_AVAILABILITY_DAY',
+  ADD_TASK_WEEK = 'ADD_TASK_WEEK',
+  ADD_TASK_DAY = 'ADD_TASK_DAY',
+  REMOVE_TASK = 'REMOVE_TASK',
+}
+
 @Component({
   selector: 'app-calendar',
   templateUrl: './calendar.component.html',
@@ -14,6 +24,7 @@ export class CalendarComponent implements OnInit {
   currentDate: Date;
   currentYear: number;
 
+  modalType: ModalType;
   isVisible = false;
 
   constructor() { }
@@ -27,18 +38,21 @@ export class CalendarComponent implements OnInit {
     return new Date(year, month + 1, 0).getDate();
   }
 
-  getCalendarDay(week: number, day: number, month: number, year: number) {
+  getCalendarDay(week: number, dayIndex: number, monthIndex: number, year: number) {
     const firstDayOfWeek = week * 7 - 6;
-    const firstDayOfWeekIndex = new Date(year, month, firstDayOfWeek).getDay();
+    const firstDayOfWeekIndex = new Date(year, monthIndex, firstDayOfWeek).getDay();
 
-    const weight = day - firstDayOfWeekIndex + firstDayOfWeek;
-    const calendarDay = new Date(year, month, weight);
+    const weight = dayIndex - firstDayOfWeekIndex + firstDayOfWeek;
+    const calendarDay = new Date(year, monthIndex, weight);
 
     return calendarDay.toLocaleDateString();
   }
 
-  showModal(): void {
+  showModal(modalType: string): void {
     this.isVisible = true;
+    console.log('MODAL TYPE', modalType);
+    this.modalType = modalType as ModalType;
+    console.log('MODAL TYPE', this.modalType);
   }
 
   handleOk(): void {
