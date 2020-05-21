@@ -25,9 +25,15 @@
             "aot": true,
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              {
+                "glob": "**/*",
+                "input": "./node_modules/@ant-design/icons-angular/src/inline-svg/",
+                "output": "/assets/"
+              }
             ],
             "styles": [
+              "src/theme.less",
               "src/styles.scss"
             ],
             "scripts": []
@@ -123,6 +129,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "calendar-app"
+    }
+  },
+  "defaultProject": "calendar-app",
+  "cli": {
+    "analytics": "3b55de84-52b8-4e86-8492-d7d42b6306e4"
+  }
 }
