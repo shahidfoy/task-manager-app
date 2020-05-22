@@ -34,8 +34,8 @@ export class CalendarComponent implements OnInit {
   currentDate: Date;
   currentYear: number;
 
-  selectedStartDate: string = '';
-  selectedEndDate: string = '';
+  selectedStartDate = '';
+  selectedEndDate = '';
 
   modalType: ModalType;
   modalTitle: string;

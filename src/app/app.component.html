@@ -1,13 +1,14 @@
 <nz-layout class="app-layout">
   <nz-sider class="menu-sidebar"
             nzCollapsible
-            nzWidth="256px"
+            nzWidth="80px"
             nzBreakpoint="lg"
-            [(nzCollapsed)]="isCollapsed">
+            [(nzCollapsed)]="isCollapsed"
+            [nzTrigger]="null">
     <div class="sidebar-logo sticky">
       <a href="#">
         <img src="assets/writterrabbit.png" alt="logo">
-        <h1>Calendar App</h1>
+        <h1>WritterRabbit</h1>
       </a>
     </div>
     <ul nz-menu nzTheme="dark" nzMode="inline" [nzInlineCollapsed]="isCollapsed">
@@ -34,16 +35,17 @@
     </ul>
   </nz-sider>
   <nz-layout>
-    <nz-header>
+    <!-- <nz-header>
       <div class="app-header">
-        <span class="header-trigger" (click)="isCollapsed = !isCollapsed">
+       <h1>Writter Rabbit</h1> -->
+        <!-- <span class="header-trigger" (click)="isCollapsed = !isCollapsed">
             <i class="trigger"
                nz-icon
                [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"
             ></i>
         </span>
       </div>
-    </nz-header>
+    </nz-header> -->
     <nz-content>
       <div class="inner-content">
         <router-outlet></router-outlet>
