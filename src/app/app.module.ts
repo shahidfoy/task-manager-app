@@ -21,6 +21,7 @@ import { en_US } from 'ng-zorro-antd/i18n';
 import { registerLocaleData } from '@angular/common';
 import en from '@angular/common/locales/en';
 import { TaskManagerFormComponent } from './calendar/task-manager-form/task-manager-form.component';
+import { NzNotificationModule } from 'ng-zorro-antd/notification';
 
 registerLocaleData(en);
 
@@ -42,6 +43,7 @@ registerLocaleData(en);
     NzDatePickerModule,
     NzTimePickerModule,
     NzCheckboxModule,
+    NzNotificationModule,
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,

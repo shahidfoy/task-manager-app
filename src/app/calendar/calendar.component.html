@@ -1,10 +1,7 @@
 <div class="calendar" id="calendar">
-
-  <!-- <button nz-button [nzType]="'primary'" (click)="showModal()"><span>Show Modal</span></button> -->
-
   <div class="calendar-dates">
 
-      <div id="calendarDays" class="days">
+      <div id="calendarSearchFilters" class="calendar-search-filters">
       </div>
 
       <div id="currentYear">
@@ -80,41 +77,65 @@
 
   <div *ngIf="modalType === 'SET_AVAILABILITY_YEAR'">
     <!-- SET_AVAILABILITY_YEAR -->
-    <app-task-manager-form [selectDayIsVisiable]="true"></app-task-manager-form>
+    <app-task-manager-form
+      [selectDayIsVisiable]="true"
+      [(selectedStartDate)]="selectedStartDate"
+      [(selectedEndDate)]="selectedEndDate"></app-task-manager-form>
   </div>
 
   <div *ngIf="modalType === 'SET_AVAILABILITY_MONTH'">
     <!-- SET_AVAILABILITY_MONTH -->
-    <app-task-manager-form [selectDayIsVisiable]="true"></app-task-manager-form>
+    <app-task-manager-form
+      [selectDayIsVisiable]="true"
+      [(selectedStartDate)]="selectedStartDate"
+      [(selectedEndDate)]="selectedEndDate"></app-task-manager-form>
   </div>
 
   <div *ngIf="modalType === 'SET_AVAILABILITY_WEEK'">
     <!-- SET_AVAILABILITY_WEEK -->
-    <app-task-manager-form [selectDayIsVisiable]="true"></app-task-manager-form>
+    <app-task-manager-form
+      [selectDayIsVisiable]="true"
+      [(selectedStartDate)]="selectedStartDate"
+      [(selectedEndDate)]="selectedEndDate"></app-task-manager-form>
   </div>
 
   <div *ngIf="modalType === 'SET_AVAILABILITY_DAY'">
     <!-- SET_AVAILABILITY_DAY -->
-    <app-task-manager-form [selectDayIsVisiable]="false"></app-task-manager-form>
+    <app-task-manager-form
+      [selectDayIsVisiable]="false"
+      [(selectedStartDate)]="selectedStartDate"
+      [(selectedEndDate)]="selectedEndDate"></app-task-manager-form>
   </div>
 
   <div *ngIf="modalType === 'ADD_TASK_WEEK'">
     <!-- ADD_TASK_WEEK -->
-    <app-task-manager-form [selectDayIsVisiable]="true"></app-task-manager-form>
+    <app-task-manager-form
+      [selectDayIsVisiable]="true"
+      [selectedStartDate]="selectedStartDate"
+      [selectedEndDate]="selectedEndDate"></app-task-manager-form>
   </div>
 
   <div *ngIf="modalType === 'ADD_TASK_DAY'">
     <!-- ADD_TASK_DAY -->
-    <app-task-manager-form [selectDayIsVisiable]="false"></app-task-manager-form>
+    <app-task-manager-form
+      [selectDayIsVisiable]="false"
+      [selectedStartDate]="selectedStartDate"
+      [selectedEndDate]="selectedEndDate"></app-task-manager-form>
   </div>
 
   <div *ngIf="modalType === 'REMOVE_TASK_WEEK'">
     <!-- REMOVE_TASK_WEEK -->
-    <app-task-manager-form [selectDayIsVisiable]="true"></app-task-manager-form>
+    <app-task-manager-form
+      [selectDayIsVisiable]="true"
+      [selectedStartDate]="selectedStartDate"
+      [selectedEndDate]="selectedEndDate"></app-task-manager-form>
   </div>
 
   <div *ngIf="modalType === 'REMOVE_TASK_DAY'">
     <!-- REMOVE_TASK_DAY -->
-    <app-task-manager-form [selectDayIsVisiable]="false"></app-task-manager-form>
+    <app-task-manager-form
+      [selectDayIsVisiable]="false"
+      [selectedStartDate]="selectedStartDate"
+      [selectedEndDate]="selectedEndDate"></app-task-manager-form>
   </div>
 </nz-modal>

@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { NzNotificationService } from 'ng-zorro-antd/notification';
 
 @Component({
   selector: 'app-task-manager-form',
@@ -9,6 +10,8 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 export class TaskManagerFormComponent implements OnInit {
 
   @Input() selectDayIsVisiable: boolean;
+  @Input() selectedStartDate: string;
+  @Input() selectedEndDate: string;
 
   validateForm!: FormGroup;
 
@@ -24,37 +27,27 @@ export class TaskManagerFormComponent implements OnInit {
     { label: 'Sat', value: 'sat', checked: false },
   ];
 
-  constructor(private fb: FormBuilder) { }
+  constructor(
+    private fb: FormBuilder,
+    private notification: NzNotificationService
+  ) { }
 
   ngOnInit(): void {
-    this.validateForm = this.fb.group({
-      datePicker: [null],
-      datePickerTime: [null],
-      monthPicker: [null],
-      rangePicker: [[]],
-      rangePickerTime: [[]],
-      timePicker: [null],
-      checkedDayOptions: [null],
-    });
-  }
+    const startDate = new Date(this.selectedStartDate);
+    const endDate = this.selectedEndDate ? new Date(this.selectedEndDate) : undefined;
 
-  updateAllChecked(): void {
-    this.indeterminate = false;
-    if (this.allChecked) {
-      this.checkOptionsOne = this.checkOptionsOne.map(item => {
-        return {
-          ...item,
-          checked: true
-        };
-      });
-    } else {
-      this.checkOptionsOne = this.checkOptionsOne.map(item => {
-        return {
-          ...item,
-          checked: false
-        };
-      });
+    if (!this.selectDayIsVisiable) {
+      this.checkOptionsOne = [];
     }
+
+    this.validateForm = this.fb.group({
+      dateRange: [{ startDate, endDate }],
+      timePickerStart: [null, [Validators.required]],
+      timePickerEnd: [null, [Validators.required]],
+      startTime: [null],
+      endTime: [null],
+      checkedDayOptions: [this.checkOptionsOne],
+    });
   }
 
   updateSingleChecked(): void {
@@ -70,6 +63,33 @@ export class TaskManagerFormComponent implements OnInit {
   }
 
   submitForm(): void {
-    console.log(this.validateForm.value);
+    console.log('FORM', this.validateForm.value);
+    // TODO:: SEND FORM TO BACKEND
+    const request = {
+      dateRange: this.validateForm.controls.dateRange.value,
+      startTime: this.validateForm.controls.startTime.value,
+      endTime: this.validateForm.controls.endTime.value,
+      includedDays: this.validateForm.controls.checkedDayOptions.value,
+    };
+    console.log('REQUEST', request);
+  }
+
+  validate(): boolean {
+    const timePickerStart = this.validateForm.controls.timePickerStart.value;
+    const timePickerEnd = this.validateForm.controls.timePickerEnd.value;
+
+    if (!timePickerStart || !timePickerEnd) {
+      this.notification
+      .blank(
+        'Missing Time',
+        `Time selection fields are missing. <br>
+          Please fill out both Start & End time inputs.`
+      );
+      return false;
+    } else {
+      this.validateForm.controls.startTime.setValue(timePickerStart.toLocaleTimeString());
+      this.validateForm.controls.endTime.setValue(timePickerEnd.toLocaleTimeString());
+      return true;
+    }
   }
 }

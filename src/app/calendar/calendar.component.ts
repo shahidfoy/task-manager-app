@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { TaskManagerFormComponent } from './task-manager-form/task-manager-form.component';
 
 export enum ModalType {
   SET_AVAILABILITY_YEAR = 'SET_AVAILABILITY_YEAR',
@@ -20,6 +21,8 @@ export enum ModalType {
 })
 export class CalendarComponent implements OnInit {
 
+  @ViewChild(TaskManagerFormComponent) taskmanagerComponent: TaskManagerFormComponent;
+
   readonly ONE_DAY = 1;
   readonly ONE_WEEK = 7;
   readonly ONE_YEAR = 365;
@@ -31,8 +34,8 @@ export class CalendarComponent implements OnInit {
   currentDate: Date;
   currentYear: number;
 
-  selectedStartDate: string;
-  selectedEndDate: string;
+  selectedStartDate: string = '';
+  selectedEndDate: string = '';
 
   modalType: ModalType;
   modalTitle: string;
@@ -146,7 +149,12 @@ export class CalendarComponent implements OnInit {
 
   handleOk(): void {
     console.log('Button ok clicked!');
-    this.isVisible = false;
+    const valid = this.taskmanagerComponent.validate();
+
+    if (valid) {
+      this.taskmanagerComponent.submitForm();
+      this.isVisible = false;
+    }
   }
 
   handleCancel(): void {
