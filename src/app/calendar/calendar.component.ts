@@ -104,7 +104,8 @@ export class CalendarComponent implements OnInit {
         this.selectedEndDate = '';
         break;
       case 'WEEK':
-        this.selectedEndDate = '';
+        // TODO FIX WEEKS TO START ON SUNDAY AND END SATURDAY
+        // IF START AND END DATE ARE NOT SUNDAY AND SATURDAY ADJUST WEEK ON CALENDAR
         this.selectedEndDate = this.getCalendarDay(week + 1, this.getFirstDayOfWeekIndex(week + 1, monthIndex, year), monthIndex, year);
         break;
       case 'MONTH':
