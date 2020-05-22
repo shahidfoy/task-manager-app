@@ -6,7 +6,11 @@
 }
 
 .app-layout {
-  // height: 100vh;
+  height: 100vh;
+}
+
+.sticky {
+  // position: fixed;
 }
 
 .menu-sidebar {
@@ -14,6 +18,9 @@
   z-index: 10;
   min-height: 100vh;
   box-shadow: 2px 0 6px rgba(0,21,41,.35);
+  // li {
+  //   position: fixed;
+  // }
 }
 
 .header-trigger {
@@ -31,7 +38,7 @@
 .sidebar-logo {
   position: relative;
   height: 64px;
-  padding-left: 24px;
+  padding-left: 0px;
   overflow: hidden;
   line-height: 64px;
   background: #001529;
@@ -40,8 +47,8 @@
 
 .sidebar-logo img {
   display: inline-block;
-  height: 32px;
-  width: 32px;
+  height: 100%;
+  width: 80px;
   vertical-align: middle;
 }
 

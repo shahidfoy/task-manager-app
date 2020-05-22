@@ -45,7 +45,7 @@
               <td *ngFor="let day of days; let dayIndex = index">
                 <div>
                   <p>
-                    Date: {{ getCalendarDay(week, dayIndex, monthIndex, currentYear) }}
+                    {{ getCalendarDay(week, dayIndex, monthIndex, currentYear) }}
                   </p>
                 </div>
                 <button (click)="[
@@ -71,53 +71,32 @@
   <h4>{{ modalDateRange }}</h4>
 
   <div *ngIf="modalType === 'SET_AVAILABILITY_YEAR'">
-    SET_AVAILABILITY_YEAR
+    <!-- SET_AVAILABILITY_YEAR -->
+    <app-task-manager-form></app-task-manager-form>
   </div>
 
   <div *ngIf="modalType === 'SET_AVAILABILITY_MONTH'">
-    SET_AVAILABILITY_MONTH
+    <!-- SET_AVAILABILITY_MONTH -->
+    <app-task-manager-form></app-task-manager-form>
   </div>
 
   <div *ngIf="modalType === 'SET_AVAILABILITY_WEEK'">
-    SET_AVAILABILITY_WEEK
+    <!-- SET_AVAILABILITY_WEEK -->
+    <app-task-manager-form></app-task-manager-form>
   </div>
 
   <div *ngIf="modalType === 'SET_AVAILABILITY_DAY'">
     <!-- SET_AVAILABILITY_DAY -->
-    <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">
-
-      <nz-form-item>
-        <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired>Start</nz-form-label>
-        <nz-form-control [nzSm]="16" [nzXs]="24">
-          <nz-time-picker
-            [nzUse12Hours]="true"
-            nzFormat="h:mm a"
-            formControlName="timePicker"></nz-time-picker>
-        </nz-form-control>
-      </nz-form-item>
-      <nz-form-item>
-        <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired>End</nz-form-label>
-        <nz-form-control [nzSm]="16" [nzXs]="24">
-          <nz-time-picker
-            [nzUse12Hours]="true"
-            nzFormat="h:mm a"
-            formControlName="timePicker"></nz-time-picker>
-        </nz-form-control>
-      </nz-form-item>
-
-      <!-- <nz-form-item>
-        <nz-form-control [nzXs]="{ span: 24, offset: 0 }" [nzSm]="{ span: 16, offset: 8 }">
-          <button nz-button nzType="primary">Submit</button>
-        </nz-form-control>
-      </nz-form-item> -->
-    </form>
+    <app-task-manager-form></app-task-manager-form>
   </div>
 
   <div *ngIf="modalType === 'ADD_TASK_WEEK'">
-    ADD_TASK_WEEK
+    <!-- ADD_TASK_WEEK -->
+    <app-task-manager-form></app-task-manager-form>
   </div>
 
   <div *ngIf="modalType === 'ADD_TASK_DAY'">
-    ADD_TASK_DAY
+    <!-- ADD_TASK_DAY -->
+    <app-task-manager-form></app-task-manager-form>
   </div>
 </nz-modal>

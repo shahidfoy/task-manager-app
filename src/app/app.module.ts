@@ -16,16 +16,19 @@ import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { NzTimePickerModule } from 'ng-zorro-antd/time-picker';
+import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 import { en_US } from 'ng-zorro-antd/i18n';
 import { registerLocaleData } from '@angular/common';
 import en from '@angular/common/locales/en';
+import { TaskManagerFormComponent } from './calendar/task-manager-form/task-manager-form.component';
 
 registerLocaleData(en);
 
 @NgModule({
   declarations: [
     AppComponent,
-    CalendarComponent
+    CalendarComponent,
+    TaskManagerFormComponent,
   ],
   imports: [
     BrowserModule,
@@ -38,6 +41,7 @@ registerLocaleData(en);
     NzFormModule,
     NzDatePickerModule,
     NzTimePickerModule,
+    NzCheckboxModule,
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,

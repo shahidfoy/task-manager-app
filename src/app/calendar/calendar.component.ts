@@ -37,22 +37,12 @@ export class CalendarComponent implements OnInit {
   modalTitle: string;
   modalDateRange: string;
   isVisible = false;
-  validateForm!: FormGroup;
 
-  constructor(private fb: FormBuilder) { }
+  constructor() { }
 
   ngOnInit(): void {
     this.currentDate = new Date();
     this.currentYear = this.currentDate.getFullYear();
-
-    this.validateForm = this.fb.group({
-      datePicker: [null],
-      datePickerTime: [null],
-      monthPicker: [null],
-      rangePicker: [[]],
-      rangePickerTime: [[]],
-      timePicker: [null]
-    });
   }
 
   getCalendarDay(week: number, dayIndex: number, monthIndex: number, year: number) {
@@ -110,7 +100,6 @@ export class CalendarComponent implements OnInit {
         break;
       case 'MONTH':
         this.selectedEndDate = this.getCalendarDay(week, dayIndex + this.getDaysInMonth(monthIndex, year) - 1, monthIndex, year);
-        console.log('SELECTED END DATE', this.selectedEndDate);
         break;
       case 'YEAR':
         this.selectedEndDate = this.getCalendarDay(this.yearLastWeek(year), this.monthLastDayIndex(11, year), 11, year);
@@ -159,9 +148,5 @@ export class CalendarComponent implements OnInit {
   handleCancel(): void {
     console.log('Button cancel clicked!');
     this.isVisible = false;
-  }
-
-  submitForm(): void {
-    console.log(this.validateForm.value);
   }
 }
