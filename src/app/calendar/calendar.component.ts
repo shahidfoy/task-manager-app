@@ -9,7 +9,8 @@ export enum ModalType {
   ADD_TASK_WEEK = 'ADD_TASK_WEEK',
   ADD_TASK_DAY = 'ADD_TASK_DAY',
   REMOVE_AVAILABILITY = 'REMOVE_AVAILABILITY',
-  REMOVE_TASK = 'REMOVE_TASK',
+  REMOVE_TASK_DAY = 'REMOVE_TASK_DAY',
+  REMOVE_TASK_WEEK = 'REMOVE_TASK_WEEK',
 }
 
 @Component({
@@ -78,8 +79,11 @@ export class CalendarComponent implements OnInit {
       case ModalType.ADD_TASK_DAY:
         this.modalTitle = 'Add Task for the Day';
         break;
-      case ModalType.REMOVE_TASK:
-        this.modalTitle = 'Remove Task';
+      case ModalType.REMOVE_TASK_DAY:
+        this.modalTitle = 'Remove Task for the Day';
+        break;
+      case ModalType.REMOVE_TASK_WEEK:
+        this.modalTitle = 'Remove Task for the Week';
         break;
       default:
         this.modalTitle = '';
