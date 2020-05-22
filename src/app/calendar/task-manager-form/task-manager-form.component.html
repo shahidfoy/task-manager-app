@@ -7,6 +7,15 @@
     </nz-form-control>
   </nz-form-item>
 
+  <nz-form-item *ngIf="inputTaskIsVisible">
+    <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired>
+      <span>Task Name</span>
+    </nz-form-label>
+    <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please enter the task!">
+      <input nz-input id="taskname" formControlName="taskname" />
+    </nz-form-control>
+  </nz-form-item>
+
   <nz-form-item>
     <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired>Start</nz-form-label>
     <nz-form-control [nzSm]="16" [nzXs]="24">

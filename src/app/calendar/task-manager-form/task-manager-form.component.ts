@@ -10,6 +10,7 @@ import { NzNotificationService } from 'ng-zorro-antd/notification';
 export class TaskManagerFormComponent implements OnInit {
 
   @Input() selectDayIsVisiable: boolean;
+  @Input() inputTaskIsVisible: boolean;
   @Input() selectedStartDate: string;
   @Input() selectedEndDate: string;
 
@@ -41,6 +42,7 @@ export class TaskManagerFormComponent implements OnInit {
     }
 
     this.validateForm = this.fb.group({
+      taskname: [null, [Validators.required]],
       dateRange: [{ startDate, endDate }],
       timePickerStart: [null, [Validators.required]],
       timePickerEnd: [null, [Validators.required]],
@@ -65,7 +67,11 @@ export class TaskManagerFormComponent implements OnInit {
   submitForm(): void {
     console.log('FORM', this.validateForm.value);
     // TODO:: SEND FORM TO BACKEND
+    const taskname = this.validateForm.controls.taskname.value;
+
+    // change into two different requests: tasks & availability
     const request = {
+      taskname,
       dateRange: this.validateForm.controls.dateRange.value,
       startTime: this.validateForm.controls.startTime.value,
       endTime: this.validateForm.controls.endTime.value,
