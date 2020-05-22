@@ -9,7 +9,7 @@
 
       <div id="currentYear">
         Year: {{ currentYear }}
-        <button nz-button [nzType]="'primary'" (click)="showModal('SET_AVAILABILITY_YEAR')">Set Availability For Year</button>
+        <button nz-button [nzType]="'primary'" (click)="[showModal('SET_AVAILABILITY_YEAR'), setDateRange('YEAR', 1, monthFirstDayIndex(0, currentYear), 0, currentYear)]">Set Availability For Year</button>
       </div>
 
       <hr>
@@ -19,7 +19,7 @@
           <br>
           Month: {{ month }}
           <br>
-          <button nz-button [nzType]="'primary'" (click)="showModal('SET_AVAILABILITY_MONTH')">Set Availability For Month</button>
+          <button nz-button [nzType]="'primary'" (click)="[showModal('SET_AVAILABILITY_MONTH'), setDateRange('MONTH', 1, monthFirstDayIndex(monthIndex, currentYear), monthIndex, currentYear)]">Set Availability For Month</button>
           <table>
             <tr>
               <th>+</th>
@@ -27,8 +27,8 @@
             </tr>
             <tr *ngFor="let week of maxWeeksInMonths">
               <td>
-                <button (click)="showModal('SET_AVAILABILITY_WEEK')">Set Availability For Week</button>
-                <button nz-button (click)="showModal('ADD_TASK_WEEK')">+ Add Task Week</button>
+                <button (click)="[showModal('SET_AVAILABILITY_WEEK'), setDateRange('WEEK', week, getFirstDayOfWeekIndex(week, monthIndex, currentYear), monthIndex, currentYear)]">Set Availability For Week</button>
+                <button nz-button (click)="[showModal('ADD_TASK_WEEK'), setDateRange('WEEK', week, getFirstDayOfWeekIndex(week, monthIndex, currentYear), monthIndex, currentYear)]">+ Add Task Week</button>
               </td>
               <td *ngFor="let day of days; let dayIndex = index">
                 <div>
@@ -36,8 +36,8 @@
                     Date: {{ getCalendarDay(week, dayIndex, monthIndex, currentYear) }}
                   </p>
                 </div>
-                <button (click)="showModal('SET_AVAILABILITY_DAY')">Set Availability</button>
-                <button nz-button (click)="showModal('ADD_TASK_DAY')">+ Add Task</button>
+                <button (click)="[showModal('SET_AVAILABILITY_DAY'), setDateRange('DAY', week, dayIndex, monthIndex, currentYear)]">Set Availability</button>
+                <button nz-button (click)="[showModal('ADD_TASK_DAY'), setDateRange('DAY', week, dayIndex, monthIndex, currentYear)]">+ Add Task</button>
               </td>
             </tr>
           </table>
@@ -49,7 +49,9 @@
 </div>
 
 
-<nz-modal [(nzVisible)]="isVisible" nzTitle="The first Modal" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
+<nz-modal [(nzVisible)]="isVisible" [nzTitle]="modalTitle" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
+  <h4>{{ modalDateRange }}</h4>
+
   <div *ngIf="modalType === 'SET_AVAILABILITY_YEAR'">
     SET_AVAILABILITY_YEAR
   </div>
@@ -63,7 +65,34 @@
   </div>
 
   <div *ngIf="modalType === 'SET_AVAILABILITY_DAY'">
-    SET_AVAILABILITY_DAY
+    <!-- SET_AVAILABILITY_DAY -->
+    <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">
+
+      <nz-form-item>
+        <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired>Start</nz-form-label>
+        <nz-form-control [nzSm]="16" [nzXs]="24">
+          <nz-time-picker
+            [nzUse12Hours]="true"
+            nzFormat="h:mm a"
+            formControlName="timePicker"></nz-time-picker>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired>End</nz-form-label>
+        <nz-form-control [nzSm]="16" [nzXs]="24">
+          <nz-time-picker
+            [nzUse12Hours]="true"
+            nzFormat="h:mm a"
+            formControlName="timePicker"></nz-time-picker>
+        </nz-form-control>
+      </nz-form-item>
+
+      <!-- <nz-form-item>
+        <nz-form-control [nzXs]="{ span: 24, offset: 0 }" [nzSm]="{ span: 16, offset: 8 }">
+          <button nz-button nzType="primary">Submit</button>
+        </nz-form-control>
+      </nz-form-item> -->
+    </form>
   </div>
 
   <div *ngIf="modalType === 'ADD_TASK_WEEK'">

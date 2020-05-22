@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 export enum ModalType {
   SET_AVAILABILITY_YEAR = 'SET_AVAILABILITY_YEAR',
@@ -7,6 +8,7 @@ export enum ModalType {
   SET_AVAILABILITY_DAY = 'SET_AVAILABILITY_DAY',
   ADD_TASK_WEEK = 'ADD_TASK_WEEK',
   ADD_TASK_DAY = 'ADD_TASK_DAY',
+  REMOVE_AVAILABILITY = 'REMOVE_AVAILABILITY',
   REMOVE_TASK = 'REMOVE_TASK',
 }
 
@@ -17,6 +19,10 @@ export enum ModalType {
 })
 export class CalendarComponent implements OnInit {
 
+  readonly ONE_DAY = 1;
+  readonly ONE_WEEK = 7;
+  readonly ONE_YEAR = 365;
+
   maxWeeksInMonths: Array<number> = [1, 2, 3, 4, 5, 6];
   months: Array<string> = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
   days: Array<string> = ['Sun', 'Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat'];
@@ -24,27 +30,37 @@ export class CalendarComponent implements OnInit {
   currentDate: Date;
   currentYear: number;
 
-  modalType: ModalType;
-  isVisible = false;
+  selectedStartDate: string;
+  selectedEndDate: string;
 
-  constructor() { }
+  modalType: ModalType;
+  modalTitle: string;
+  modalDateRange: string;
+  isVisible = false;
+  validateForm!: FormGroup;
+
+  constructor(private fb: FormBuilder) { }
 
   ngOnInit(): void {
     this.currentDate = new Date();
     this.currentYear = this.currentDate.getFullYear();
-  }
 
-  getDaysInMonth(month: number, year: number) {
-    return new Date(year, month + 1, 0).getDate();
+    this.validateForm = this.fb.group({
+      datePicker: [null],
+      datePickerTime: [null],
+      monthPicker: [null],
+      rangePicker: [[]],
+      rangePickerTime: [[]],
+      timePicker: [null]
+    });
   }
 
   getCalendarDay(week: number, dayIndex: number, monthIndex: number, year: number) {
-    const firstDayOfWeek = week * 7 - 6;
+    const firstDayOfWeek = this.getFirstDayOfWeek(week);
     const firstDayOfWeekIndex = new Date(year, monthIndex, firstDayOfWeek).getDay();
 
     const weight = dayIndex - firstDayOfWeekIndex + firstDayOfWeek;
     const calendarDay = new Date(year, monthIndex, weight);
-
     return calendarDay.toLocaleDateString();
   }
 
@@ -53,6 +69,85 @@ export class CalendarComponent implements OnInit {
     console.log('MODAL TYPE', modalType);
     this.modalType = modalType as ModalType;
     console.log('MODAL TYPE', this.modalType);
+    switch (modalType as ModalType) {
+      case ModalType.SET_AVAILABILITY_YEAR:
+        this.modalTitle = 'Set Availability for the Year';
+        break;
+      case ModalType.SET_AVAILABILITY_MONTH:
+        this.modalTitle = 'Set Availability for the Month';
+        break;
+      case ModalType.SET_AVAILABILITY_WEEK:
+        this.modalTitle = 'Set Availability for the Week';
+        break;
+      case ModalType.SET_AVAILABILITY_DAY:
+        this.modalTitle = 'Set Availability for the Day';
+        break;
+      case ModalType.ADD_TASK_WEEK:
+        this.modalTitle = 'Add Task for the Week';
+        break;
+      case ModalType.ADD_TASK_DAY:
+        this.modalTitle = 'Add Task for the Day';
+        break;
+      case ModalType.REMOVE_TASK:
+        this.modalTitle = 'Remove Task';
+        break;
+      default:
+        this.modalTitle = '';
+        break;
+    }
+  }
+
+  setDateRange(rangeType: string, week: number, dayIndex: number, monthIndex: number, year: number) {
+    this.selectedStartDate = this.getCalendarDay(week, dayIndex, monthIndex, year);
+    switch (rangeType) {
+      case 'DAY':
+        this.selectedEndDate = '';
+        break;
+      case 'WEEK':
+        this.selectedEndDate = '';
+        this.selectedEndDate = this.getCalendarDay(week + 1, this.getFirstDayOfWeekIndex(week + 1, monthIndex, year), monthIndex, year);
+        break;
+      case 'MONTH':
+        this.selectedEndDate = this.getCalendarDay(week, dayIndex + this.getDaysInMonth(monthIndex, year) - 1, monthIndex, year);
+        console.log('SELECTED END DATE', this.selectedEndDate);
+        break;
+      case 'YEAR':
+        this.selectedEndDate = this.getCalendarDay(this.yearLastWeek(year), this.monthLastDayIndex(11, year), 11, year);
+        break;
+      default:
+        this.selectedEndDate = this.getCalendarDay(week, dayIndex, monthIndex, year);
+        break;
+    }
+
+    this.modalDateRange = `From ${this.selectedStartDate} AM to ${this.selectedEndDate} PM`;
+  }
+
+  getFirstDayOfWeek(week: number) {
+    return week * 7 - 6;
+  }
+
+  getFirstDayOfWeekIndex(week: number, monthIndex: number, year: number) {
+    const day = this.getFirstDayOfWeek(week);
+    return new Date(year, monthIndex, day).getDay();
+  }
+
+  getDaysInMonth(monthIndex: number, year: number): number {
+    return new Date(year, monthIndex + 1, 0).getDate();
+  }
+
+  monthFirstDayIndex(monthIndex: number, year: number) {
+    return new Date(year, monthIndex, 1).getDay();
+  }
+
+  monthLastDayIndex(monthIndex: number, year: number) {
+    return new Date(year, monthIndex + 1, 0).getDay();
+  }
+
+  yearLastWeek(year: number): number {
+    const firstDayDecIndex = new Date(year, 11, 1).getDay();
+    // if the first day of the week index is greator then 4
+    // then there will be 6 weeks in the last month otherwise there will be 5 weeks
+    return firstDayDecIndex > 4 ? 6 : 5;
   }
 
   handleOk(): void {
@@ -63,5 +158,9 @@ export class CalendarComponent implements OnInit {
   handleCancel(): void {
     console.log('Button cancel clicked!');
     this.isVisible = false;
+  }
+
+  submitForm(): void {
+    console.log(this.validateForm.value);
   }
 }
