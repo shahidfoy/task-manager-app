@@ -1,6 +1,6 @@
 <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">
 
-  <nz-form-item *ngIf="selectDaysIsVisible">
+  <nz-form-item *ngIf="selectDayIsVisiable">
     <nz-form-control>
       <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired>Select Days to Include</nz-form-label>
       <nz-checkbox-group formControlName="checkedDayOptions" [(ngModel)]="checkOptionsOne" (ngModelChange)="updateSingleChecked()"></nz-checkbox-group>

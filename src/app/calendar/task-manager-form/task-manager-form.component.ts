@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
@@ -8,8 +8,9 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 })
 export class TaskManagerFormComponent implements OnInit {
 
+  @Input() selectDayIsVisiable: boolean;
+
   validateForm!: FormGroup;
-  selectDaysIsVisible = true;
 
   allChecked = false;
   indeterminate = true;
