@@ -68,12 +68,19 @@ export class TaskManagerFormComponent implements OnInit {
     console.log('FORM', this.validateForm.value);
     // TODO:: SEND FORM TO BACKEND
 
-    const includedDays: Array<number> = [];
+    const dateRange = this.validateForm.controls.dateRange.value;
+    const startDate = dateRange.startDate;
+    const endDate = dateRange.endDate;
+    const includedDayIndex: Array<number> = [];
 
-    for (let i = 0; i < this.checkOptionsOne.length; i++) {
-      if (this.checkOptionsOne[i].checked) {
-        includedDays.push(i);
+    if (endDate) {
+      for (let i = 0; i < this.checkOptionsOne.length; i++) {
+        if (this.checkOptionsOne[i].checked) {
+          includedDayIndex.push(i);
+        }
       }
+    } else {
+      includedDayIndex.push(startDate.getDay());
     }
 
     const taskname = this.validateForm.controls.taskname.value;
@@ -81,10 +88,10 @@ export class TaskManagerFormComponent implements OnInit {
     // change into two different requests: tasks & availability
     const request = {
       taskname,
-      dateRange: this.validateForm.controls.dateRange.value,
+      dateRange,
       startTime: this.validateForm.controls.startTime.value,
       endTime: this.validateForm.controls.endTime.value,
-      includedDays,
+      includedDayIndex,
     };
     console.log('REQUEST', request);
   }
