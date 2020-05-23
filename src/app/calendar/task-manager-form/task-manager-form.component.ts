@@ -19,13 +19,13 @@ export class TaskManagerFormComponent implements OnInit {
   allChecked = false;
   indeterminate = true;
   checkOptionsOne = [
-    { label: 'Sun', value: 'sun', checked: false },
-    { label: 'Mon', value: 'mon', checked: true },
-    { label: 'Tues', value: 'tues', checked: true },
-    { label: 'Wed', value: 'wed', checked: true },
-    { label: 'Thurs', value: 'thurs', checked: true },
-    { label: 'Fri', value: 'fri', checked: true },
-    { label: 'Sat', value: 'sat', checked: false },
+    { label: 'Sun', value: 'Sun', checked: false },
+    { label: 'Mon', value: 'Mon', checked: true },
+    { label: 'Tues', value: 'Tues', checked: true },
+    { label: 'Wed', value: 'Wed', checked: true },
+    { label: 'Thurs', value: 'Thurs', checked: true },
+    { label: 'Fri', value: 'Fri', checked: true },
+    { label: 'Sat', value: 'Sat', checked: false },
   ];
 
   constructor(
@@ -67,6 +67,15 @@ export class TaskManagerFormComponent implements OnInit {
   submitForm(): void {
     console.log('FORM', this.validateForm.value);
     // TODO:: SEND FORM TO BACKEND
+
+    const includedDays: Array<number> = [];
+
+    for (let i = 0; i < this.checkOptionsOne.length; i++) {
+      if (this.checkOptionsOne[i].checked) {
+        includedDays.push(i);
+      }
+    }
+
     const taskname = this.validateForm.controls.taskname.value;
 
     // change into two different requests: tasks & availability
@@ -75,7 +84,7 @@ export class TaskManagerFormComponent implements OnInit {
       dateRange: this.validateForm.controls.dateRange.value,
       startTime: this.validateForm.controls.startTime.value,
       endTime: this.validateForm.controls.endTime.value,
-      includedDays: this.validateForm.controls.checkedDayOptions.value,
+      includedDays,
     };
     console.log('REQUEST', request);
   }
