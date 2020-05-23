@@ -1,6 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
+import { TaskManagerService } from 'src/app/services/task-manager.service';
+import { TaskRequest } from 'src/app/interfaces/task-request.interface';
+import { AvailabilityRequest } from 'src/app/interfaces/availibility-request.interface';
 
 @Component({
   selector: 'app-task-manager-form',
@@ -29,11 +32,13 @@ export class TaskManagerFormComponent implements OnInit {
   ];
 
   constructor(
+    private taskManagerService: TaskManagerService,
     private fb: FormBuilder,
     private notification: NzNotificationService
   ) { }
 
   ngOnInit(): void {
+    // make into interface
     const startDate = new Date(this.selectedStartDate);
     const endDate = this.selectedEndDate ? new Date(this.selectedEndDate) : undefined;
 
@@ -42,7 +47,7 @@ export class TaskManagerFormComponent implements OnInit {
     }
 
     this.validateForm = this.fb.group({
-      taskname: [null, [Validators.required]],
+      taskName: [null, [Validators.required]],
       dateRange: [{ startDate, endDate }],
       timePickerStart: [null, [Validators.required]],
       timePickerEnd: [null, [Validators.required]],
@@ -83,17 +88,32 @@ export class TaskManagerFormComponent implements OnInit {
       includedDayIndex.push(startDate.getDay());
     }
 
-    const taskname = this.validateForm.controls.taskname.value;
+    const taskName = this.validateForm.controls.taskName.value;
+    console.log('TASK NAME', taskName);
 
-    // change into two different requests: tasks & availability
-    const request = {
-      taskname,
-      dateRange,
-      startTime: this.validateForm.controls.startTime.value,
-      endTime: this.validateForm.controls.endTime.value,
-      includedDayIndex,
-    };
-    console.log('REQUEST', request);
+    if (taskName) {
+      const taskPostRequest: TaskRequest = {
+        taskName,
+        dateRange,
+        startTime: this.validateForm.controls.startTime.value,
+        endTime: this.validateForm.controls.endTime.value,
+        includedDayIndex,
+      };
+
+      console.log('TASK REQUEST', taskPostRequest);
+      this.taskManagerService.addTask(taskPostRequest).subscribe((response: any) => {
+        console.log(response);
+      });
+
+    } else {
+      const availabilityPostRequest: AvailabilityRequest = {
+        dateRange,
+        startTime: this.validateForm.controls.startTime.value,
+        endTime: this.validateForm.controls.endTime.value,
+        includedDayIndex,
+      };
+      console.log('AVAILIBILITY REQUEST', availabilityPostRequest);
+    }
   }
 
   validate(): boolean {
