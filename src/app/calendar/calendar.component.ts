@@ -108,6 +108,7 @@ export class CalendarComponent implements OnInit {
         break;
       case 'MONTH':
         this.selectedEndDate = this.getCalendarDay(week, dayIndex + this.getDaysInMonth(monthIndex, year) - 1, monthIndex, year);
+        console.log(this.selectedStartDate + ' ' + this.selectedEndDate);
         break;
       case 'YEAR':
         this.selectedEndDate = this.getCalendarDay(this.yearLastWeek(year), this.monthLastDayIndex(11, year), 11, year);

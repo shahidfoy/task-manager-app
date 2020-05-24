@@ -48,7 +48,7 @@ export class TaskManagerFormComponent implements OnInit {
 
     this.validateForm = this.fb.group({
       taskName: [null, [Validators.required]],
-      dateRange: [{ startDate, endDate }],
+      dateRange: [null],
       timePickerStart: [null, [Validators.required]],
       timePickerEnd: [null, [Validators.required]],
       startTime: [null],
@@ -73,7 +73,10 @@ export class TaskManagerFormComponent implements OnInit {
     console.log('FORM', this.validateForm.value);
     // TODO:: SEND FORM TO BACKEND
 
-    const dateRange = this.validateForm.controls.dateRange.value;
+    const dateRange = {
+      startDate: new Date(this.selectedStartDate),
+      endDate: new Date(this.selectedEndDate)
+    };
     const startDate = dateRange.startDate;
     const endDate = dateRange.endDate;
     const includedDayIndex: Array<number> = [];

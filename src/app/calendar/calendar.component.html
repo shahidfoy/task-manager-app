@@ -7,8 +7,8 @@
       <div id="currentYear">
         Year: {{ currentYear }}
         <button nz-button [nzType]="'primary'" (click)="[
-            showModal('SET_AVAILABILITY_YEAR'),
-            setDateRange('YEAR', 1, monthFirstDayIndex(0, currentYear), 0, currentYear)
+            setDateRange('YEAR', 1, monthFirstDayIndex(0, currentYear), 0, currentYear),
+            showModal('SET_AVAILABILITY_YEAR')
           ]">Set Availability For Year</button>
       </div>
 
@@ -20,8 +20,8 @@
           Month: {{ month }}
           <br>
           <button nz-button [nzType]="'primary'" (click)="[
-              showModal('SET_AVAILABILITY_MONTH'),
-              setDateRange('MONTH', 1, monthFirstDayIndex(monthIndex, currentYear), monthIndex, currentYear)
+              setDateRange('MONTH', 1, monthFirstDayIndex(monthIndex, currentYear), monthIndex, currentYear),
+              showModal('SET_AVAILABILITY_MONTH')
             ]">Set Availability For Month</button>
           <table>
             <tr>
@@ -31,16 +31,16 @@
             <tr *ngFor="let week of maxWeeksInMonths">
               <td>
                 <button nz-button (click)="[
-                    showModal('SET_AVAILABILITY_WEEK'),
-                    setDateRange('WEEK', week, getFirstDayOfWeekIndex(week, monthIndex, currentYear), monthIndex, currentYear)
+                    setDateRange('WEEK', week, getFirstDayOfWeekIndex(week, monthIndex, currentYear), monthIndex, currentYear),
+                    showModal('SET_AVAILABILITY_WEEK')
                   ]">Set Availability For Week</button>
                 <button nz-button [nzType]="'link'" (click)="[
-                    showModal('ADD_TASK_WEEK'),
-                    setDateRange('WEEK', week, getFirstDayOfWeekIndex(week, monthIndex, currentYear), monthIndex, currentYear)
+                    setDateRange('WEEK', week, getFirstDayOfWeekIndex(week, monthIndex, currentYear), monthIndex, currentYear),
+                    showModal('ADD_TASK_WEEK')
                   ]">+ Add Task Week</button>
                 <button nz-button [nzType]="'link'" (click)="[
-                    showModal('REMOVE_TASK_WEEK'),
-                    setDateRange('WEEK', week, getFirstDayOfWeekIndex(week, monthIndex, currentYear), monthIndex, currentYear)
+                    setDateRange('WEEK', week, getFirstDayOfWeekIndex(week, monthIndex, currentYear), monthIndex, currentYear),
+                    showModal('REMOVE_TASK_WEEK')
                   ]">+ Remove Task Week</button>
               </td>
               <td *ngFor="let day of days; let dayIndex = index">
@@ -50,16 +50,16 @@
                   </p>
                 </div>
                 <button nz-button (click)="[
-                    showModal('SET_AVAILABILITY_DAY'),
-                    setDateRange('DAY', week, dayIndex, monthIndex, currentYear)
+                    setDateRange('DAY', week, dayIndex, monthIndex, currentYear),
+                    showModal('SET_AVAILABILITY_DAY')
                   ]">Set Availability</button>
                 <button nz-button [nzType]="'link'" (click)="[
-                    showModal('ADD_TASK_DAY'),
-                    setDateRange('DAY', week, dayIndex, monthIndex, currentYear)
+                    setDateRange('DAY', week, dayIndex, monthIndex, currentYear),
+                    showModal('ADD_TASK_DAY')
                   ]">+ Add Task</button>
                 <button nz-button [nzType]="'link'" (click)="[
-                    showModal('REMOVE_TASK_DAY'),
-                    setDateRange('DAY', week, dayIndex, monthIndex, currentYear)
+                    setDateRange('DAY', week, dayIndex, monthIndex, currentYear),
+                    showModal('REMOVE_TASK_DAY')
                   ]">- Remove Task</button>
               </td>
             </tr>
