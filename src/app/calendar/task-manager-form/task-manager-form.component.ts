@@ -113,6 +113,9 @@ export class TaskManagerFormComponent implements OnInit {
         includedDayIndex,
       };
       console.log('AVAILIBILITY REQUEST', availabilityPostRequest);
+      this.taskManagerService.setAvailability(availabilityPostRequest).subscribe((response: any) => {
+        console.log(response);
+      });
     }
   }
 
