@@ -105,7 +105,12 @@ export class TaskManagerFormComponent implements OnInit {
 
       console.log('TASK REQUEST', taskPostRequest);
       this.taskManagerService.addTask(taskPostRequest).subscribe((response: any) => {
-        console.log(response);
+        // console.log(response);
+        this.notification
+        .blank(
+          'Task Posted',
+          response.message
+        );
       });
 
     } else {
@@ -117,7 +122,12 @@ export class TaskManagerFormComponent implements OnInit {
       };
       console.log('AVAILIBILITY REQUEST', availabilityPostRequest);
       this.taskManagerService.setAvailability(availabilityPostRequest).subscribe((response: any) => {
-        console.log(response);
+        // console.log(response);
+        this.notification
+          .blank(
+            'Availability Posted',
+            response.message
+          );
       });
     }
   }
