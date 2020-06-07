@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { TaskManagerFormComponent } from './task-manager-form/task-manager-form.component';
+import { TaskManagerService } from '../services/task-manager.service';
 
 export enum ModalType {
   SET_AVAILABILITY_YEAR = 'SET_AVAILABILITY_YEAR',
@@ -42,11 +43,23 @@ export class CalendarComponent implements OnInit {
   modalDateRange: string;
   isVisible = false;
 
-  constructor() { }
+  constructor(private taskManagerService: TaskManagerService) { }
 
   ngOnInit(): void {
     this.currentDate = new Date();
     this.currentYear = this.currentDate.getFullYear();
+
+    // TODO:: GET CURRENT YEAR
+    // const dateRange = {
+    //   startDate: new Date('01/01/2020'),
+    //   endDate: new Date('12/31/2020')
+    // };
+    // const startDate = dateRange.startDate;
+    // const endDate = dateRange.endDate;
+    // console.log('date RANGE', dateRange);
+    this.taskManagerService.getUserTasks('01-01-2020', '12-31-2020').subscribe((tasks: any) => {
+      console.log(tasks);
+    });
   }
 
   getCalendarDay(week: number, dayIndex: number, monthIndex: number, year: number) {
@@ -118,6 +131,8 @@ export class CalendarComponent implements OnInit {
         break;
     }
 
+    console.log('start date', this.selectedStartDate);
+
     this.modalDateRange = `From ${this.selectedStartDate} AM to ${this.selectedEndDate} PM`;
   }
 
@@ -163,4 +178,6 @@ export class CalendarComponent implements OnInit {
     console.log('Button cancel clicked!');
     this.isVisible = false;
   }
+
+
 }

@@ -38,10 +38,6 @@ export class TaskManagerFormComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    // make into interface
-    const startDate = new Date(this.selectedStartDate);
-    const endDate = this.selectedEndDate ? new Date(this.selectedEndDate) : undefined;
-
     if (!this.selectDayIsVisiable) {
       this.checkOptionsOne = [];
     }
@@ -70,9 +66,6 @@ export class TaskManagerFormComponent implements OnInit {
   }
 
   submitForm(): void {
-    console.log('FORM', this.validateForm.value);
-    // TODO:: SEND FORM TO BACKEND
-
     const dateRange = {
       startDate: new Date(this.selectedStartDate),
       endDate: new Date(this.selectedEndDate)
@@ -92,8 +85,6 @@ export class TaskManagerFormComponent implements OnInit {
     }
 
     const taskName = this.validateForm.controls.taskName.value;
-    console.log('TASK NAME', taskName);
-
     if (taskName) {
       const taskPostRequest: TaskRequest = {
         taskName,
@@ -112,7 +103,6 @@ export class TaskManagerFormComponent implements OnInit {
           response.message
         );
       });
-
     } else {
       const availabilityPostRequest: AvailabilityRequest = {
         dateRange,
@@ -120,6 +110,7 @@ export class TaskManagerFormComponent implements OnInit {
         endTime: this.validateForm.controls.endTime.value,
         includedDayIndex,
       };
+
       console.log('AVAILIBILITY REQUEST', availabilityPostRequest);
       this.taskManagerService.setAvailability(availabilityPostRequest).subscribe((response: any) => {
         // console.log(response);

@@ -19,4 +19,8 @@ export class TaskManagerService {
   addTask(request: TaskRequest): Observable<any> {
     return this.http.post<TaskRequest>(`${environment.BASEURL}/api/task-manager/add-task`, request);
   }
+
+  getUserTasks(startDate: any, endDate: any): Observable<any> {
+    return this.http.get<any>(`${environment.BASEURL}/api/task-manager/user-tasks/${startDate}/${endDate}`);
+  }
 }
