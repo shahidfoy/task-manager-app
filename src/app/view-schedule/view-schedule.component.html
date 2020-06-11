@@ -1,0 +1,38 @@
+<button (click)="changeCalendarView('GRID_MONTH')">Month</button>
+<button (click)="changeCalendarView('GRID_TIME_WEEK')">Week</button>
+<button (click)="changeCalendarView('LIST_WEEK')">List</button>
+
+<full-calendar
+    #calendarMonth 
+    *ngIf="selectedGrid === 'GRID_MONTH'"
+    selectable="true"
+    [defaultView]="GRID_MONTH" 
+    [plugins]="calendarPlugins"
+    [events]="events | async"
+    (eventClick)="handleDateClick($event)"
+    (dateClick)="handleDateClick($event)"
+    (select)="handleDateClick($event)">
+</full-calendar>
+
+<full-calendar
+    #calendarWeek 
+    *ngIf="selectedGrid === 'GRID_TIME_WEEK'"
+    selectable="true"
+    [defaultView]="GRID_TIME_WEEK" 
+    [plugins]="calendarPlugins"
+    [events]="calendarEvents"
+    (eventClick)="handleDateClick($event)"
+    (dateClick)="handleDateClick($event)"
+    (select)="handleDateClick($event)">
+</full-calendar>
+
+<full-calendar 
+    #calendarList
+    *ngIf="selectedGrid === 'LIST_WEEK'"
+    selectable="true"
+    [(defaultView)]="LIST_WEEK" 
+    [plugins]="calendarPlugins"
+    [events]="calendarEvents"
+    (eventClick)="handleDateClick($event)"
+    (dateClick)="handleDateClick($event)">
+</full-calendar>

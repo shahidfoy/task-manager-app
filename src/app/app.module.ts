@@ -25,6 +25,8 @@ import { en_US } from 'ng-zorro-antd/i18n';
 import { registerLocaleData } from '@angular/common';
 import en from '@angular/common/locales/en';
 import { TaskManagerFormComponent } from './calendar/task-manager-form/task-manager-form.component';
+import { ViewScheduleComponent } from './view-schedule/view-schedule.component';
+import { FullCalendarModule } from '@fullcalendar/angular';
 
 registerLocaleData(en);
 
@@ -33,8 +35,10 @@ registerLocaleData(en);
     AppComponent,
     CalendarComponent,
     TaskManagerFormComponent,
+    ViewScheduleComponent,
   ],
   imports: [
+    FullCalendarModule,
     BrowserModule,
     AppRoutingModule,
     IconsProviderModule,

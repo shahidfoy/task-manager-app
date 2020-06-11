@@ -48,6 +48,8 @@
                   <p>
                     {{ getCalendarDay(week, dayIndex, monthIndex, currentYear) }}
                   </p>
+
+                  <!-- <p *ngIf="tasksExist(getCalendarDay(week, dayIndex, monthIndex, currentYear))">User has a task</p> -->
                 </div>
                 <button nz-button (click)="[
                     setDateRange('DAY', week, dayIndex, monthIndex, currentYear),

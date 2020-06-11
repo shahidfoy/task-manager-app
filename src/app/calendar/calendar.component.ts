@@ -43,6 +43,8 @@ export class CalendarComponent implements OnInit {
   modalDateRange: string;
   isVisible = false;
 
+  tasks: Array<any> = [];
+
   constructor(private taskManagerService: TaskManagerService) { }
 
   ngOnInit(): void {
@@ -57,8 +59,9 @@ export class CalendarComponent implements OnInit {
     // const startDate = dateRange.startDate;
     // const endDate = dateRange.endDate;
     // console.log('date RANGE', dateRange);
-    this.taskManagerService.getUserTasks('01-01-2020', '12-31-2020').subscribe((tasks: any) => {
+    this.taskManagerService.getUserTasks('01-01-2020', '12-31-2020').subscribe((tasks: Array<any>) => {
       console.log(tasks);
+      this.tasks = tasks;
     });
   }
 
@@ -179,5 +182,11 @@ export class CalendarComponent implements OnInit {
     this.isVisible = false;
   }
 
-
+  tasksExist(calendarDay: any) {
+    console.log(this.tasks);
+    console.log(new Date(calendarDay).toUTCString());
+    console.log(this.tasks.find((task) => task.date === new Date(calendarDay).toUTCString()));
+    return Boolean(this.tasks.find((task) => task.date === new Date(calendarDay).toUTCString()));
+    // return false;
+  }
 }
