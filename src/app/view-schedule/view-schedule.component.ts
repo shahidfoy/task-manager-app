@@ -7,6 +7,8 @@ import { FullCalendarComponent } from '@fullcalendar/angular';
 import listPlugin from '@fullcalendar/list';
 import { TaskManagerService } from '../services/task-manager.service';
 import { Observable, Observer } from 'rxjs';
+import { TaskManagerFormComponent } from '../task-manager-form/task-manager-form.component';
+import { Calendar } from '@fullcalendar/core';
 
 @Component({
   selector: 'app-view-schedule',
@@ -15,13 +17,18 @@ import { Observable, Observer } from 'rxjs';
 })
 export class ViewScheduleComponent implements OnInit, AfterViewInit {
 
+  @ViewChild(TaskManagerFormComponent) taskmanagerComponent: TaskManagerFormComponent;
+  
   // references the #calendar in the template
   @ViewChild('calendar') calendarComponent: FullCalendarComponent;
+  fullCalendarAPI: Calendar;
 
   GRID_MONTH = 'dayGridMonth';
   GRID_WEEK = 'dayGridWeek';
   GRID_TIME_WEEK = 'timeGridWeek';
+  GRID_DAY = 'timeGridDay';
   LIST_WEEK = 'listWeek';
+
 
   selectedGrid: string;
 
@@ -31,6 +38,14 @@ export class ViewScheduleComponent implements OnInit, AfterViewInit {
   tasks: any;
   calendarEvents;
   events;
+
+  isVisible = false;
+  selectedStartDate = '';
+  selectedEndDate = '';
+  modalTitle: string = 'Add Task';
+  modalDateRange: string;
+
+  date = Date.now();
 
   constructor(private taskManagerService: TaskManagerService) { }
 
@@ -44,17 +59,23 @@ export class ViewScheduleComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
+    this.fullCalendarAPI = this.calendarComponent.getApi();
     this.events = new Observable<any>((observer: Observer<any>) => {
         this.taskManagerService.getUserTasks('01-01-2020', '12-31-2020').subscribe((tasks: Array<any>) => {
           console.log(tasks);
           this.calendarEvents = [];
           this.tasks = tasks;
           this.tasks.forEach(task => {
+            // console.log('start time', task.startTime.substring(0, 7));
+            // console.log('start', new Date(task.date.substring(0, 11) + task.startTime));
             this.calendarEvents.push({
               title: task.taskName,
               date: task.date.substring(0, 10),
+              start: new Date(task.date.substring(0, 11) + '0' + task.startTime.substring(0, 7)),
+              end: new Date(task.date.substring(0, 11) + '0' + task.endTime.substring(0, 7)),
             });
           });
+          console.log('calendar events', this.calendarEvents);
           observer.next(this.calendarEvents);
       });
     });
@@ -96,11 +117,33 @@ export class ViewScheduleComponent implements OnInit, AfterViewInit {
   handleDateClick(arg) { // handler method
     console.log('clicked', arg);
     alert(arg.dateStr);
+    this.isVisible = true;
   }
 
 
   changeCalendarView(viewType: string) {
     console.log('viewType', viewType);
     this.selectedGrid = viewType;
+  }
+
+  handleCancel(): void {
+    console.log('Button cancel clicked!');
+    this.isVisible = false;
+  }
+
+  handleOk(): void {
+    console.log('Button ok clicked!');
+    const valid = this.taskmanagerComponent.validate();
+
+    if (valid) {
+      this.taskmanagerComponent.submitForm();
+      this.isVisible = false;
+    }
+  }
+
+  onChange(event: Date) {
+    console.log('onChange', event);
+    // this.calendarComponent.gotoDate()
+    this.fullCalendarAPI.gotoDate(event);
   }
 }

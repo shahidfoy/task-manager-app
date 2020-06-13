@@ -24,7 +24,7 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { en_US } from 'ng-zorro-antd/i18n';
 import { registerLocaleData } from '@angular/common';
 import en from '@angular/common/locales/en';
-import { TaskManagerFormComponent } from './calendar/task-manager-form/task-manager-form.component';
+import { TaskManagerFormComponent } from './task-manager-form/task-manager-form.component';
 import { ViewScheduleComponent } from './view-schedule/view-schedule.component';
 import { FullCalendarModule } from '@fullcalendar/angular';
 
@@ -52,6 +52,7 @@ registerLocaleData(en);
     NzCheckboxModule,
     NzNotificationModule,
     NzToolTipModule,
+    NzDatePickerModule,
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,

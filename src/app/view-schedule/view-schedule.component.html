@@ -1,38 +1,64 @@
 <button (click)="changeCalendarView('GRID_MONTH')">Month</button>
 <button (click)="changeCalendarView('GRID_TIME_WEEK')">Week</button>
 <button (click)="changeCalendarView('LIST_WEEK')">List</button>
+<button (click)="changeCalendarView('GRID_DAY')">Day</button>
+
+<nz-date-picker [(ngModel)]="date" (ngModelChange)="onChange($event)"></nz-date-picker>
 
 <full-calendar
-    #calendarMonth 
+    #calendar 
     *ngIf="selectedGrid === 'GRID_MONTH'"
     selectable="true"
     [defaultView]="GRID_MONTH" 
     [plugins]="calendarPlugins"
     [events]="events | async"
     (eventClick)="handleDateClick($event)"
-    (dateClick)="handleDateClick($event)"
     (select)="handleDateClick($event)">
 </full-calendar>
 
 <full-calendar
-    #calendarWeek 
+    #calendar 
     *ngIf="selectedGrid === 'GRID_TIME_WEEK'"
     selectable="true"
     [defaultView]="GRID_TIME_WEEK" 
     [plugins]="calendarPlugins"
     [events]="calendarEvents"
     (eventClick)="handleDateClick($event)"
-    (dateClick)="handleDateClick($event)"
     (select)="handleDateClick($event)">
 </full-calendar>
 
 <full-calendar 
-    #calendarList
+    #calendar
     *ngIf="selectedGrid === 'LIST_WEEK'"
     selectable="true"
     [(defaultView)]="LIST_WEEK" 
     [plugins]="calendarPlugins"
     [events]="calendarEvents"
     (eventClick)="handleDateClick($event)"
-    (dateClick)="handleDateClick($event)">
+    (select)="handleDateClick($event)">
 </full-calendar>
+
+<full-calendar 
+    #calendar
+    *ngIf="selectedGrid === 'GRID_DAY'"
+    selectable="true"
+    [(defaultView)]="GRID_DAY" 
+    [plugins]="calendarPlugins"
+    [events]="calendarEvents"
+    (eventClick)="handleDateClick($event)"
+    (select)="handleDateClick($event)">
+</full-calendar>
+
+
+<nz-modal [(nzVisible)]="isVisible" [nzTitle]="modalTitle" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
+    <!-- <h4>{{ modalDateRange }}</h4> -->
+    <!-- <div *ngIf="modalType === 'ADD_TASK_DAY'"> -->
+      <!-- ADD_TASK_DAY -->
+    <app-task-manager-form
+        [selectDayIsVisiable]="false"
+        [inputTaskIsVisible]="true"
+        [selectedStartDate]="selectedStartDate"
+        [selectedEndDate]="selectedEndDate">
+    </app-task-manager-form>
+    <!-- </div> -->
+  </nz-modal>
