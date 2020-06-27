@@ -1,15 +1,55 @@
-<button (click)="changeCalendarView('GRID_MONTH')">Month</button>
-<button (click)="changeCalendarView('GRID_TIME_WEEK')">Week</button>
-<button (click)="changeCalendarView('LIST_WEEK')">List</button>
-<button (click)="changeCalendarView('GRID_DAY')">Day</button>
+<button (click)="changeCalendarView(GridType.GRID_MONTH)">Month</button>
+<button (click)="changeCalendarView(GridType.GRID_TIME_WEEK)">Week</button>
+<button (click)="changeCalendarView(GridType.LIST_WEEK)">List</button>
+<button (click)="changeCalendarView(GridType.GRID_DAY)">Day</button>
 
 <nz-date-picker [(ngModel)]="date" (ngModelChange)="onChange($event)"></nz-date-picker>
 
-<full-calendar
+<full-calendar 
     #calendar 
-    *ngIf="selectedGrid === 'GRID_MONTH'"
+    *ngIf="selectedGridType === GridType.GRID_MONTH"
+    deepChangeDetection="true" 
+    [options]="calendarOptionsMonth">
+</full-calendar>
+<full-calendar 
+    #calendar 
+    *ngIf="selectedGridType === GridType.GRID_TIME_WEEK"
+    deepChangeDetection="true" 
+    [options]="calendarOptionsWeek">
+</full-calendar>
+<full-calendar 
+    #calendar 
+    *ngIf="selectedGridType === GridType.LIST_WEEK"
+    deepChangeDetection="true" 
+    [options]="calendarOptionsList">
+</full-calendar>
+<full-calendar 
+    #calendar 
+    *ngIf="selectedGridType === GridType.GRID_DAY"
+    deepChangeDetection="true" 
+    [options]="calendarOptionsDay">
+</full-calendar>
+
+<!-- <full-calendar
+    #calendar
+    [defaultDate]="date"
     selectable="true"
-    [defaultView]="GRID_MONTH" 
+    deepChangeDetection="true"
+    [defaultView]="selectedGridType" 
+    [plugins]="calendarPlugins"
+    [events]="events | async"
+    (eventClick)="handleDateClick($event)"
+    (select)="handleDateClick($event)">
+</full-calendar> -->
+
+
+
+<!-- <full-calendar
+    #calendar
+    *ngIf="selectedGridType === GridType.GRID_MONTH"
+    [defaultDate]="date"
+    selectable="true"
+    [defaultView]="selectedGridType" 
     [plugins]="calendarPlugins"
     [events]="events | async"
     (eventClick)="handleDateClick($event)"
@@ -18,9 +58,10 @@
 
 <full-calendar
     #calendar 
-    *ngIf="selectedGrid === 'GRID_TIME_WEEK'"
+    *ngIf="selectedGridType === GridType.GRID_TIME_WEEK"
+    [defaultDate]="date"
     selectable="true"
-    [defaultView]="GRID_TIME_WEEK" 
+    [defaultView]="selectedGridType" 
     [plugins]="calendarPlugins"
     [events]="calendarEvents"
     (eventClick)="handleDateClick($event)"
@@ -29,9 +70,10 @@
 
 <full-calendar 
     #calendar
-    *ngIf="selectedGrid === 'LIST_WEEK'"
+    *ngIf="selectedGridType === GridType.LIST_WEEK"
+    [defaultDate]="date"
     selectable="true"
-    [(defaultView)]="LIST_WEEK" 
+    [defaultView]="selectedGridType" 
     [plugins]="calendarPlugins"
     [events]="calendarEvents"
     (eventClick)="handleDateClick($event)"
@@ -40,20 +82,21 @@
 
 <full-calendar 
     #calendar
-    *ngIf="selectedGrid === 'GRID_DAY'"
+    *ngIf="selectedGridType === GridType.GRID_DAY"
+    [defaultDate]="date"
     selectable="true"
-    [(defaultView)]="GRID_DAY" 
+    [defaultView]="selectedGridType" 
     [plugins]="calendarPlugins"
     [events]="calendarEvents"
     (eventClick)="handleDateClick($event)"
     (select)="handleDateClick($event)">
-</full-calendar>
+</full-calendar> -->
 
 
 <nz-modal [(nzVisible)]="isVisible" [nzTitle]="modalTitle" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
     <!-- <h4>{{ modalDateRange }}</h4> -->
     <!-- <div *ngIf="modalType === 'ADD_TASK_DAY'"> -->
-      <!-- ADD_TASK_DAY -->
+        <!-- ADD_TASK_DAY -->
     <app-task-manager-form
         [selectDayIsVisiable]="false"
         [inputTaskIsVisible]="true"
@@ -61,4 +104,4 @@
         [selectedEndDate]="selectedEndDate">
     </app-task-manager-form>
     <!-- </div> -->
-  </nz-modal>
+</nz-modal>

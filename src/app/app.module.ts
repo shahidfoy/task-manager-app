@@ -1,3 +1,5 @@
+import { FullCalendarModule } from '@fullcalendar/angular';
+
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
@@ -24,9 +26,8 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { en_US } from 'ng-zorro-antd/i18n';
 import { registerLocaleData } from '@angular/common';
 import en from '@angular/common/locales/en';
-import { TaskManagerFormComponent } from './task-manager-form/task-manager-form.component';
-import { ViewScheduleComponent } from './view-schedule/view-schedule.component';
-import { FullCalendarModule } from '@fullcalendar/angular';
+
+import { ViewScheduleModule } from './view-schedule/view-schedule.module';
 
 registerLocaleData(en);
 
@@ -34,11 +35,10 @@ registerLocaleData(en);
   declarations: [
     AppComponent,
     CalendarComponent,
-    TaskManagerFormComponent,
-    ViewScheduleComponent,
   ],
   imports: [
     FullCalendarModule,
+    ViewScheduleModule,
     BrowserModule,
     AppRoutingModule,
     IconsProviderModule,

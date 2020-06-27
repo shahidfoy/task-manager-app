@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { TaskManagerFormComponent } from '../task-manager-form/task-manager-form.component';
+import { TaskManagerFormComponent } from '../view-schedule/task-manager-form/task-manager-form.component';
 import { TaskManagerService } from '../services/task-manager.service';
 
 export enum ModalType {
