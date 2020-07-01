@@ -2,12 +2,14 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 const routes: Routes = [
-  { path: '', pathMatch: 'full', redirectTo: '/view-schedule' },
+  { path: '', pathMatch: 'full', redirectTo: '/schedule' },
   { 
-    path: 'view-schedule', 
-    loadChildren: () => import('./view-schedule/view-schedule.module').then(m => m.ViewScheduleModule) 
+    path: 'schedule', 
+    loadChildren: () => { 
+      return import('./view-schedule/view-schedule.module').then(m => m.ViewScheduleModule);
+    }
   },
-  { path: 'welcome', loadChildren: () => import('./pages/welcome/welcome.module').then(m => m.WelcomeModule) }
+  // { path: 'welcome', loadChildren: () => import('./pages/welcome/welcome.module').then(m => m.WelcomeModule) }
 ];
 
 @NgModule({

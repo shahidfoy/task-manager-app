@@ -38,7 +38,6 @@ registerLocaleData(en);
   ],
   imports: [
     FullCalendarModule,
-    ViewScheduleModule,
     BrowserModule,
     AppRoutingModule,
     IconsProviderModule,
@@ -56,7 +55,8 @@ registerLocaleData(en);
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    ViewScheduleModule,
   ],
   providers: [{ provide: NZ_I18N, useValue: en_US }],
   bootstrap: [AppComponent]

@@ -11,6 +11,8 @@ import { Observable, Observer } from 'rxjs';
 import { TaskManagerFormComponent } from './task-manager-form/task-manager-form.component';
 import { Calendar } from '@fullcalendar/core';
 import { GridType } from '../enums/grid-type.enum';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Route } from '@angular/compiler/src/core';
 // import { CalendarOptions } from '@fullcalendar/angular'; 
 
 export interface CalendarOptions {
@@ -39,23 +41,6 @@ export class ViewScheduleComponent implements OnInit, AfterViewInit {
   GridType: typeof GridType = GridType;
   selectedGridType: GridType;
   selectedGridEvent = new EventEmitter<GridType>();
-  // selectedGridType: Observable<GridType>;
-
-  // GRID_MONTH = 'dayGridMonth';
-  // GRID_WEEK = 'dayGridWeek';
-  // GRID_TIME_WEEK = 'timeGridWeek';
-  // GRID_DAY = 'timeGridDay';
-  // LIST_WEEK = 'listWeek';
-
-
-  // selectedGrid: string;
-
-  // calendarPlugins = [dayGridPlugin];
-  calendarPlugins = [dayGridPlugin, interaction, timeGridPlugin, listPlugin, interactionPlugin, bootstrapPlugin];
-
-  tasks: any;
-  calendarEvents;
-  events;
 
   isVisible = false;
   selectedStartDate = '';
@@ -65,127 +50,50 @@ export class ViewScheduleComponent implements OnInit, AfterViewInit {
 
   date: Date = new Date();
 
-  calendarOptionsMonth: CalendarOptions = {
-    initialView: 'dayGridMonth',
-    events: this.calendarEvents,
-    plugins: this.calendarPlugins,
-    dateClick: this.handleDateClick.bind(this),
-    eventClick: this.handleDateClick.bind(this),
-    initialDate: this.date,
-    themeSystem: 'boostrap'
-  }
-
-  calendarOptionsWeek: CalendarOptions = {
-    initialView: 'timeGridWeek',
-    events: this.calendarEvents,
-    plugins: this.calendarPlugins,
-    dateClick: this.handleDateClick.bind(this),
-    eventClick: this.handleDateClick.bind(this),
-    initialDate: this.date,
-    themeSystem: 'boostrap'
-  }
-
-  calendarOptionsList: CalendarOptions = {
-    initialView: 'listWeek',
-    events: this.calendarEvents,
-    plugins: this.calendarPlugins,
-    eventClick: this.handleDateClick.bind(this),
-    initialDate: this.date,
-    themeSystem: 'boostrap'
-  }
-
-  calendarOptionsDay: CalendarOptions = {
-    initialView: 'timeGridDay',
-    events: this.calendarEvents,
-    plugins: this.calendarPlugins,
-    dateClick: this.handleDateClick.bind(this),
-    eventClick: this.handleDateClick.bind(this),
-    initialDate: this.date,
-    themeSystem: 'boostrap'
-  }
-
-  constructor(private taskManagerService: TaskManagerService) { }
+  constructor(
+    private taskManagerService: TaskManagerService,
+    private route: ActivatedRoute,
+    private router: Router
+  ) { }
 
   ngOnInit(): void {
     this.date = new Date();
     this.selectedGridType = GridType.GRID_MONTH;
-    // this.selectedGridType = this.setUpGrid(GridType.GRID_MONTH);
-    this.calendarEvents = [
-        { title: 'event 3', date: '2020-06-08' },
-        { title: 'event 3', date: '2020-06-09' },
-        { title: 'event 3', date: '2020-06-10' },
-    ];
 
-    // this.calendarOptions.events = this.calendarEvents;
+    // this.calendarEvents = [
+    //     { title: 'event 3', date: '2020-06-08' },
+    //     { title: 'event 3', date: '2020-06-09' },
+    //     { title: 'event 3', date: '2020-06-10' },
+    // ];
   }
 
-  ngAfterViewInit() {
-    this.fullCalendarAPI = this.calendarComponent.getApi();
-    // this.events = new Observable<any>((observer: Observer<any>) => {
-        this.taskManagerService.getUserTasks('01-01-2020', '12-31-2020').subscribe((tasks: Array<any>) => {
-          console.log(tasks);
-          this.calendarEvents = [];
-          this.tasks = tasks;
-          this.tasks.forEach(task => {
-            // console.log('start time', task.startTime.substring(0, 7));
-            // console.log('start', new Date(task.date.substring(0, 11) + task.startTime));
-            this.calendarEvents.push({
-              title: task.taskName,
-              date: task.date.substring(0, 10),
-              start: new Date(task.date.substring(0, 11) + '0' + task.startTime.substring(0, 7)),
-              end: new Date(task.date.substring(0, 11) + '0' + task.endTime.substring(0, 7)),
-            });
-          });
-          console.log('calendar events', this.calendarEvents);
-          // observer.next(this.calendarEvents);
-          this.calendarOptionsMonth.events = this.calendarEvents;
-          this.calendarOptionsWeek.events = this.calendarEvents;
-          this.calendarOptionsList.events = this.calendarEvents;
-          this.calendarOptionsDay.events = this.calendarEvents;
-
-      });
-  }
-
-  // setUpGrid(selectedGrid: GridType): Observable<GridType> {
-  //     return new Observable<GridType>((observer: any) => {
-  //       observer.next(selectedGrid);
-  //     });
-  // }
-
-  someMethod() {
-    let calendarApi = this.calendarComponent.getApi();
-    calendarApi.next();
-  }
-
-  // addEvent() {
-  //   this.calendarEvents = this.calendarEvents.concat(
-  //     { title: 'event 4', date: '2020-06-09' }
-  //   );
-  // }
-
-  handleDateClick(arg) { // handler method
-    console.log('clicked', arg);
-    alert(arg.dateStr);
-    this.isVisible = true;
-  }
+  ngAfterViewInit() {}
 
   changeCalendarView(selectedGrid: GridType) {
     console.log('viewType', selectedGrid);
     this.selectedGridType = selectedGrid;
 
-    // this.date = new Date(this.fullCalendarAPI.getDate());
-    // this.fullCalendarAPI.gotoDate(this.date);
-    // this.selectedGridType = this.setUpGrid(selectedGrid);
-    // this.fullCalendarAPI.today();
-    // this.selectedGridEvent.emit(this.selectedGridType);
+    let gridParam: string;
+    switch (this.selectedGridType) {
+      case GridType.GRID_MONTH:
+        gridParam = 'month';
+        break;
+      case GridType.GRID_TIME_WEEK:
+        gridParam = 'week';
+        break;
+      case GridType.GRID_DAY:
+        gridParam = 'day';
+        break;
+      case GridType.LIST_WEEK:
+        gridParam = 'list';
+        break;
+      default:
+        gridParam = 'month';
+        break;
+    }
 
-    // console.log('SELECTED GRID EVENT',this.selectedGridEvent);
-
-    // this.selectedGridEvent.
-
-    // this.calendarOptions.initialView = selectedGrid;
-    // console.log('INITIAL VIEW', this.calendarOptions.initialView);
-    // this.fullCalendarAPI.refetchEvents();
+    this.router.navigateByUrl(`/schedule/${gridParam}/${new Date().toISOString().substr(0,10)}`);
+    console.log('url', `/schedule/${gridParam}/${new Date().toISOString().substr(0,10)}`);
   }
 
   handleCancel(): void {
@@ -210,5 +118,7 @@ export class ViewScheduleComponent implements OnInit, AfterViewInit {
     this.fullCalendarAPI.gotoDate(this.date);
     console.log('DATE', this.date);
     // this.fullCalendarAPI.next();
+
+    // TODO:: ROUTE ON DATE CHANGE FOR FULL CALENDAR COMPONENT
   }
 }

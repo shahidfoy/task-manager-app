@@ -1,96 +1,12 @@
 <button (click)="changeCalendarView(GridType.GRID_MONTH)">Month</button>
 <button (click)="changeCalendarView(GridType.GRID_TIME_WEEK)">Week</button>
-<button (click)="changeCalendarView(GridType.LIST_WEEK)">List</button>
 <button (click)="changeCalendarView(GridType.GRID_DAY)">Day</button>
+<!-- <button (click)="changeCalendarView(GridType.LIST_WEEK)">List</button> -->
 
 <nz-date-picker [(ngModel)]="date" (ngModelChange)="onChange($event)"></nz-date-picker>
 
-<full-calendar 
-    #calendar 
-    *ngIf="selectedGridType === GridType.GRID_MONTH"
-    deepChangeDetection="true" 
-    [options]="calendarOptionsMonth">
-</full-calendar>
-<full-calendar 
-    #calendar 
-    *ngIf="selectedGridType === GridType.GRID_TIME_WEEK"
-    deepChangeDetection="true" 
-    [options]="calendarOptionsWeek">
-</full-calendar>
-<full-calendar 
-    #calendar 
-    *ngIf="selectedGridType === GridType.LIST_WEEK"
-    deepChangeDetection="true" 
-    [options]="calendarOptionsList">
-</full-calendar>
-<full-calendar 
-    #calendar 
-    *ngIf="selectedGridType === GridType.GRID_DAY"
-    deepChangeDetection="true" 
-    [options]="calendarOptionsDay">
-</full-calendar>
-
-<!-- <full-calendar
-    #calendar
-    [defaultDate]="date"
-    selectable="true"
-    deepChangeDetection="true"
-    [defaultView]="selectedGridType" 
-    [plugins]="calendarPlugins"
-    [events]="events | async"
-    (eventClick)="handleDateClick($event)"
-    (select)="handleDateClick($event)">
-</full-calendar> -->
-
-
-
-<!-- <full-calendar
-    #calendar
-    *ngIf="selectedGridType === GridType.GRID_MONTH"
-    [defaultDate]="date"
-    selectable="true"
-    [defaultView]="selectedGridType" 
-    [plugins]="calendarPlugins"
-    [events]="events | async"
-    (eventClick)="handleDateClick($event)"
-    (select)="handleDateClick($event)">
-</full-calendar>
-
-<full-calendar
-    #calendar 
-    *ngIf="selectedGridType === GridType.GRID_TIME_WEEK"
-    [defaultDate]="date"
-    selectable="true"
-    [defaultView]="selectedGridType" 
-    [plugins]="calendarPlugins"
-    [events]="calendarEvents"
-    (eventClick)="handleDateClick($event)"
-    (select)="handleDateClick($event)">
-</full-calendar>
-
-<full-calendar 
-    #calendar
-    *ngIf="selectedGridType === GridType.LIST_WEEK"
-    [defaultDate]="date"
-    selectable="true"
-    [defaultView]="selectedGridType" 
-    [plugins]="calendarPlugins"
-    [events]="calendarEvents"
-    (eventClick)="handleDateClick($event)"
-    (select)="handleDateClick($event)">
-</full-calendar>
-
-<full-calendar 
-    #calendar
-    *ngIf="selectedGridType === GridType.GRID_DAY"
-    [defaultDate]="date"
-    selectable="true"
-    [defaultView]="selectedGridType" 
-    [plugins]="calendarPlugins"
-    [events]="calendarEvents"
-    (eventClick)="handleDateClick($event)"
-    (select)="handleDateClick($event)">
-</full-calendar> -->
+<!-- <app-fullcalendar></app-fullcalendar> -->
+<router-outlet></router-outlet>
 
 
 <nz-modal [(nzVisible)]="isVisible" [nzTitle]="modalTitle" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">

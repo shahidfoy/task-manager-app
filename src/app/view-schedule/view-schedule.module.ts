@@ -23,6 +23,7 @@ import { NzNotificationModule } from 'ng-zorro-antd/notification';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { ViewRoutingModule } from './view-routing.module';
+import { FullcalendarComponent } from './fullcalendar/fullcalendar.component';
 
 FullCalendarModule.registerPlugins([ // register FullCalendar plugins
   interactionPlugin,
@@ -33,7 +34,11 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
 ]);
 
 @NgModule({
-  declarations: [ViewScheduleComponent, TaskManagerFormComponent],
+  declarations: [
+    ViewScheduleComponent,
+    TaskManagerFormComponent,
+    FullcalendarComponent
+  ],
   imports: [
     CommonModule,
     FullCalendarModule,
